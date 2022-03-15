@@ -21,5 +21,4 @@
 /////////////////////////////////////////////////
 HSLAPixel ComputeAvg(unsigned int x, unsigned int y, pair<unsigned int, unsigned int> ul, PNG& im);
 
-
 #endif

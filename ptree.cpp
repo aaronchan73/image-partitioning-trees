@@ -48,6 +48,7 @@ HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, u
   double avgSat = 0;
  // double avgAlp = 0;
   double avgLue = 0;
+
   for (unsigned int x = ul.first; x < ul.first + w; x++) {
     for (unsigned int y = ul.second; y < ul.second + h; y++) {
       HSLAPixel *pixel = im.getPixel(x,y);
@@ -58,6 +59,7 @@ HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, u
       avgLue += pixel->l;
     }
   }
+
   avgSat = avgSat / (w * h);
  // avgAlp = avgAlp / (w * h);
   avgLue = avgLue / (w * h);
@@ -84,30 +86,33 @@ Node* PTree::BuildNode(PNG& im, pair<unsigned int, unsigned int> ul, unsigned in
   if (w == 0 || h == 0) return NULL;
 
   if (w == 1 && h == 1) {
+
     Node *singleNode = new Node(ul, w, h, *im.getPixel(ul.first, ul.second), NULL, NULL);
     return singleNode;
+    
   } else {
+
   HSLAPixel average = ComputeAvg(w, h, ul, im);  
   Node *node = new Node(ul, w, h, average, NULL, NULL);
 
   // replace the line below with your implementation
   if (w > h || w == h) {
     if (w % 2 == 0) { // width is even
-      pair<unsigned int, unsigned int> newUL(w/2, ul.second);
+      pair<unsigned int, unsigned int> newUL = {ul.first + w/2, ul.second};
       node->A = BuildNode(im, ul, w/2, h);
       node->B = BuildNode(im, newUL, w/2, h);
     } else { // width is odd
-      pair<unsigned int, unsigned int> newUL(w/2, ul.second);
+      pair<unsigned int, unsigned int> newUL = {ul.first + w/2, ul.second};
       node->A = BuildNode(im, ul, w/2, h);
       node->B = BuildNode(im, newUL, w/2 + 1, h);
     }
   } else if (w < h) {
     if (h % 2 == 0) { // height is even
-      pair<unsigned int, unsigned int> newUL(ul.first, h/2);
+      pair<unsigned int, unsigned int> newUL = {ul.first, ul.second + h/2};
       node->A = BuildNode(im, ul, w, h/2);
       node->B = BuildNode(im, newUL, w, h/2);
     } else { // height is odd
-      pair<unsigned int, unsigned int> newUL(ul.first, h/2);
+      pair<unsigned int, unsigned int> newUL = {ul.first, ul.second + h/2};
       node->A = BuildNode(im, ul, w, h/2);
       node->B = BuildNode(im, newUL, w, h/2 + 1);
     }
@@ -167,8 +172,8 @@ Node* PTree::BuildNode(PNG& im, pair<unsigned int, unsigned int> ul, unsigned in
 */
 PTree::PTree(PNG& im) {
   // add your implementation below
-  pair<unsigned int, unsigned int> initial(0,0);
-  root = BuildNode(im, initial, im.width(), im.height());
+  // pair<unsigned int, unsigned int> initial(0,0);
+  root = BuildNode(im, {0,0}, im.width(), im.height());
 }
 
 /*
