@@ -39,8 +39,8 @@ void PTree::Clear() {
   clearTree(root);
 }
 
-void PTree::copyTree(Node* root, const PTree& other) {
-
+Node* PTree::copyTree(const PTree& other) {
+  
 }
 
 /*
@@ -53,7 +53,7 @@ void PTree::copyTree(Node* root, const PTree& other) {
 */
 void PTree::Copy(const PTree& other) {
   // add your implementation below
-  copyTree(root, other);
+  root = copyTree(other);
 }
 
 HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, unsigned int> ul, PNG& im) {

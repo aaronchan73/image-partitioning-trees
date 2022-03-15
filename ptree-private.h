@@ -31,6 +31,6 @@ void Horizontal(Node* root);
 
 void Vertical(Node* root);
 
-void copyTree(Node* root, const PTree& other);
+Node* copyTree(const PTree& other);
 
 #endif
