@@ -19,6 +19,16 @@ typedef pair<unsigned int, unsigned int> pairUI;
 // PTree private member functions
 /////////////////////////////////
 
+void PTree::clearTree(Node* root) {
+  if (root->A == NULL && root->B == NULL) {
+    delete root;
+  } else {
+    clearTree(root->A);
+    clearTree(root->B);
+  }
+  root = NULL;
+}
+
 /*
 *  Destroys all dynamically allocated memory associated with the current PTree object.
 *  You may want to add a recursive helper function for this!
@@ -26,7 +36,7 @@ typedef pair<unsigned int, unsigned int> pairUI;
 */
 void PTree::Clear() {
   // add your implementation below
-  
+  clearTree(root);
 }
 
 /*
@@ -39,14 +49,14 @@ void PTree::Clear() {
 */
 void PTree::Copy(const PTree& other) {
   // add your implementation below
-  
+
 }
 
 HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, unsigned int> ul, PNG& im) {
   double XcomponentHue = 0;
   double YcomponentHue = 0;
   double avgSat = 0;
- // double avgAlp = 0;
+  // double avgAlp = 0;
   double avgLue = 0;
 
   for (unsigned int x = ul.first; x < ul.first + w; x++) {
@@ -55,13 +65,13 @@ HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, u
       XcomponentHue += Deg2X(pixel->h);
       YcomponentHue += Deg2Y(pixel->h);
       avgSat += pixel->s;
-    //  avgAlp += pixel->a;
+      // avgAlp += pixel->a;
       avgLue += pixel->l;
     }
   }
 
   avgSat = avgSat / (w * h);
- // avgAlp = avgAlp / (w * h);
+  // avgAlp = avgAlp / (w * h);
   avgLue = avgLue / (w * h);
   XcomponentHue = XcomponentHue / (w * h);
   YcomponentHue = YcomponentHue / (w * h);
@@ -226,6 +236,7 @@ PTree::~PTree() {
 */
 PNG PTree::Render() const {
   // replace the line below with your implementation
+
   return PNG();
 }
 
@@ -250,6 +261,13 @@ void PTree::Prune(double tolerance) {
   
 }
 
+int PTree::getSize(Node* root) const {
+  if (!root) return 0;
+  else {
+    return 1 + getSize(root->A) + getSize(root->B);
+  }
+}
+
 /*
 *  Returns the total number of nodes in the tree.
 *  This function should run in time linearly proportional to the size of the tree.
@@ -258,7 +276,16 @@ void PTree::Prune(double tolerance) {
 */
 int PTree::Size() const {
   // replace the line below with your implementation
-  return -1;
+  return getSize(root);
+}
+
+int PTree::getLeaves(Node* root) const {
+  if (!root) return 0;
+  else if (root->A == NULL && root->B == NULL) {
+    return 1;
+  } else {
+    return getLeaves(root->A) + getLeaves(root->B);
+  }
 }
 
 /*
@@ -269,7 +296,7 @@ int PTree::Size() const {
 */
 int PTree::NumLeaves() const {
   // replace the line below with your implementation
-  return -1;
+  return getLeaves(root);
 }
 
 /*
