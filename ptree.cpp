@@ -227,6 +227,11 @@ PTree::~PTree() {
   Clear();
 }
 
+PNG PTree::renderPNG(Node* root) const {
+  PNG ans(0,0); // how to determine width and height?
+  return ans;
+}
+
 /*
 *  Traverses the tree and puts the leaf nodes' color data into the nodes'
 *  defined image regions on the output PNG.
@@ -240,8 +245,7 @@ PTree::~PTree() {
 */
 PNG PTree::Render() const {
   // replace the line below with your implementation
-
-  return PNG();
+  return renderPNG(root);
 }
 
 /*
@@ -304,7 +308,15 @@ int PTree::NumLeaves() const {
 }
 
 void PTree::Horizontal(Node* root) {
-
+  if(!root) return;
+  else {
+    Node* temp = root->A;
+    root->A = root->B;
+    root->B = temp;
+    Horizontal(root->A);
+    Horizontal(root->B);
+  }
+  Render();
 }
 
 /*
