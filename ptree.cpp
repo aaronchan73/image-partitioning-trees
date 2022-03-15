@@ -39,6 +39,10 @@ void PTree::Clear() {
   clearTree(root);
 }
 
+void PTree::copyTree(Node* root, const PTree& other) {
+
+}
+
 /*
 *  Copies the parameter other PTree into the current PTree.
 *  Does not free any memory. Should be called by copy constructor and operator=.
@@ -49,7 +53,7 @@ void PTree::Clear() {
 */
 void PTree::Copy(const PTree& other) {
   // add your implementation below
-
+  copyTree(root, other);
 }
 
 HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, unsigned int> ul, PNG& im) {
@@ -299,6 +303,10 @@ int PTree::NumLeaves() const {
   return getLeaves(root);
 }
 
+void PTree::Horizontal(Node* root) {
+
+}
+
 /*
 *  Rearranges the nodes in the tree, such that a rendered PNG will be flipped horizontally
 *  (i.e. mirrored over a vertical axis).
@@ -312,6 +320,12 @@ int PTree::NumLeaves() const {
 */
 void PTree::FlipHorizontal() {
   // add your implementation below
+  Horizontal(root);
+}
+
+
+
+void PTree::Vertical(Node* root) {
   
 }
 
@@ -328,7 +342,7 @@ void PTree::FlipHorizontal() {
 */
 void PTree::FlipVertical() {
   // add your implementation below
-  
+  Vertical(root);
 }
 
 /*

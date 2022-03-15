@@ -27,4 +27,10 @@ int getLeaves(Node* root) const;
 
 void clearTree(Node* root);
 
+void Horizontal(Node* root);
+
+void Vertical(Node* root);
+
+void copyTree(Node* root, const PTree& other);
+
 #endif
