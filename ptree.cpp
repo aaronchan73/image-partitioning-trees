@@ -32,8 +32,8 @@ void PTree::clearTree(Node* root) {
     Node *tempA = root->A;
     Node *tempB = root->B;
     delete root;
-    clearTree(root->A);
-    clearTree(root->B);
+    clearTree(tempA);
+    clearTree(tempB);
   }
 }
 
@@ -50,7 +50,8 @@ void PTree::Clear() {
 
 
 Node* PTree::copyTree(const PTree& other) {
-  
+  Node *otherRoot = other.GetRoot();
+  Node *node = new Node();
 }
 
 /*
@@ -63,7 +64,7 @@ Node* PTree::copyTree(const PTree& other) {
 */
 void PTree::Copy(const PTree& other) {
   // add your implementation below
-  // root = copyTree(other);
+  root = copyTree(other);
 }
 
 HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, unsigned int> ul, PNG& im) {
@@ -209,7 +210,7 @@ PTree::PTree(PNG& im) {
 */
 PTree::PTree(const PTree& other) {
   // add your implementation below
-  // Copy(other);
+  Copy(other);
 }
 
 /*
@@ -325,16 +326,22 @@ int PTree::NumLeaves() const {
 }
 
 void PTree::Horizontal(Node* root) {
-  if(!root) return;
+  if (!root) return;
+  else if (root->A == NULL && root->B == NULL) return;
+  if (root->A->A == NULL || root->B->B == NULL) {
+         HSLAPixel tempA = root->A->avg;
+         HSLAPixel tempB = root->B->avg;
+         root->A->avg = tempB;
+         root->B->avg = tempA;
+  }
   else {
-    Node* temp = root->A;
-    root->A = root->B;
-    root->B = temp;
-    
+    // Node* temp = root->A;
+    // root->A = root->B;
+    // root->B = temp;
+
     Horizontal(root->A);
     Horizontal(root->B);
   }
-  // Render();
 }
 
 /*
