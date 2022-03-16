@@ -293,72 +293,72 @@ TEST_CASE("PTree::Size_NumLeaves", "[weight=1][part=ptree]") {
   
 // }
 
-// TEST_CASE("PTree::Render", "[weight=1][part=ptree]") {
-//   //cout << "Testing PTree Render..." << endl;
+TEST_CASE("PTree::Render", "[weight=1][part=ptree]") {
+  //cout << "Testing PTree Render..." << endl;
 
-//   PNG source;
-//   source.readFromFile("originals/kkkk-256x224.png");
+  PNG source;
+  source.readFromFile("originals/kkkk-256x224.png");
 
-//   // call the tree constructor
-//   PTree tree(source);
+  // call the tree constructor
+  PTree tree(source);
 
-//   PNG output = tree.Render();
+  PNG output = tree.Render();
 
-//   output.writeToFile("images/render-kkkk.png");
+  output.writeToFile("images/render-kkkk.png");
 
-//   REQUIRE(output == source);
-// }
+  REQUIRE(output == source);
+}
 
-// TEST_CASE("PTree::Prune_small", "[weight=1][part=ptree]") {
-//   //cout << "Testing PTree Prune_small..." << endl;
+TEST_CASE("PTree::Prune_small", "[weight=1][part=ptree]") {
+  //cout << "Testing PTree Prune_small..." << endl;
 
-//   PNG source;
-//   source.readFromFile("originals/pruneto9leaves-5x3.png");
+  PNG source;
+  source.readFromFile("originals/pruneto9leaves-5x3.png");
 
-//   // call the tree constructor
-//   PTree tree(source);
+  // call the tree constructor
+  PTree tree(source);
 
-//   int treesize = tree.Size();
-//   int treenumleaves = tree.NumLeaves();
+  int treesize = tree.Size();
+  int treenumleaves = tree.NumLeaves();
 
-//   REQUIRE(treesize == 29);
-//   REQUIRE(treenumleaves == 15);
+  REQUIRE(treesize == 29);
+  REQUIRE(treenumleaves == 15);
 
-//   // pruning tree
-//   tree.Prune(0.02);
-//   treesize = tree.Size();
-//   treenumleaves = tree.NumLeaves();
+  // pruning tree
+  tree.Prune(0.02);
+  treesize = tree.Size();
+  treenumleaves = tree.NumLeaves();
 
-//   REQUIRE(treesize == 17);
-//   REQUIRE(treenumleaves == 9);
-// }
+  REQUIRE(treesize == 17);
+  REQUIRE(treenumleaves == 9);
+}
 
-// TEST_CASE("PTree::Prune_large_render", "[weight=1][part=ptree]") {
-//   //cout << "Testing PTree Prune_large..." << endl;
+TEST_CASE("PTree::Prune_large_render", "[weight=1][part=ptree]") {
+  //cout << "Testing PTree Prune_large..." << endl;
 
-//   PNG source;
-//   source.readFromFile("originals/kkkk-256x224.png");
+  PNG source;
+  source.readFromFile("originals/kkkk-256x224.png");
 
-//   // call the tree constructor
-//   PTree tree(source);
+  // call the tree constructor
+  PTree tree(source);
 
-//   // pruning tree
-//   tree.Prune(0.05);
-//   int treesize = tree.Size();
-//   int treenumleaves = tree.NumLeaves();
+  // pruning tree
+  tree.Prune(0.05);
+  int treesize = tree.Size();
+  int treenumleaves = tree.NumLeaves();
 
-//   PNG soln_image;
-//   soln_image.readFromFile("soln-images/soln-prune-kkkk-tol005.png");
+  PNG soln_image;
+  soln_image.readFromFile("soln-images/soln-prune-kkkk-tol005.png");
 
-//   PNG output = tree.Render();
+  PNG output = tree.Render();
 
-//   output.writeToFile("images/prune-kkkk-tol005.png");
+  output.writeToFile("images/prune-kkkk-tol005.png");
 
-//   REQUIRE(treesize == 13035);
-//   REQUIRE(treenumleaves == 6518);
+  REQUIRE(treesize == 13035);
+  REQUIRE(treenumleaves == 6518);
 
-//   REQUIRE(output == soln_image);
-// }
+  REQUIRE(output == soln_image);
+}
 
 TEST_CASE("PTree::FlipHorizontal_small", "[weight=1][part=ptree]") {
   //cout << "Testing PTree FlipHorizontal_small..." << endl;

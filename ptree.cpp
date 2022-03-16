@@ -20,13 +20,21 @@ typedef pair<unsigned int, unsigned int> pairUI;
 /////////////////////////////////
 
 void PTree::clearTree(Node* root) {
-  if (root->A == NULL && root->B == NULL) {
+  // if (root->A == NULL && root->B == NULL) {
+  //   delete root;
+  // } else {
+  //   clearTree(root->A);
+  //   clearTree(root->B);
+  // }
+  // root = NULL;
+  if (!root) return;
+  else {
+    Node *tempA = root->A;
+    Node *tempB = root->B;
     delete root;
-  } else {
     clearTree(root->A);
     clearTree(root->B);
   }
-  root = NULL;
 }
 
 /*
@@ -38,6 +46,8 @@ void PTree::Clear() {
   // add your implementation below
   clearTree(root);
 }
+
+
 
 Node* PTree::copyTree(const PTree& other) {
   
@@ -53,7 +63,7 @@ Node* PTree::copyTree(const PTree& other) {
 */
 void PTree::Copy(const PTree& other) {
   // add your implementation below
-  root = copyTree(other);
+  // root = copyTree(other);
 }
 
 HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, unsigned int> ul, PNG& im) {
@@ -199,7 +209,7 @@ PTree::PTree(PNG& im) {
 */
 PTree::PTree(const PTree& other) {
   // add your implementation below
-  Copy(other);
+  // Copy(other);
 }
 
 /*
@@ -227,9 +237,14 @@ PTree::~PTree() {
   Clear();
 }
 
-PNG PTree::renderPNG(Node* root) const {
-  PNG ans(0,0); // how to determine width and height?
-  return ans;
+void PTree::renderPNG(Node* root, PNG &image) const {
+  if (root == NULL) return;
+  else if (root->A == NULL && root->B == NULL) {
+    *image.getPixel(root->upperleft.first, root->upperleft.second) = root->avg;
+  } else {
+    renderPNG(root->A, image);
+    renderPNG(root->B, image);
+  }
 }
 
 /*
@@ -245,7 +260,9 @@ PNG PTree::renderPNG(Node* root) const {
 */
 PNG PTree::Render() const {
   // replace the line below with your implementation
-  return renderPNG(root);
+  PNG ans(root->width, root->height);
+  renderPNG(root, ans);
+  return ans;
 }
 
 /*
@@ -313,10 +330,11 @@ void PTree::Horizontal(Node* root) {
     Node* temp = root->A;
     root->A = root->B;
     root->B = temp;
+    
     Horizontal(root->A);
     Horizontal(root->B);
   }
-  Render();
+  // Render();
 }
 
 /*
