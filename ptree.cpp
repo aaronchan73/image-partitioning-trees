@@ -50,7 +50,7 @@ void PTree::Clear() {
 
 
 Node* PTree::copyTree(const PTree& other) {
-  Node *otherRoot = other.GetRoot();
+  Node *otherRoot = other.root; // can access root directly
   Node *node = new Node();
 }
 
@@ -328,10 +328,10 @@ int PTree::NumLeaves() const {
 void PTree::Horizontal(Node* root) {
   if (!root) return;
   else if (root->A == NULL && root->B == NULL) return;
-  if (root->A->A == NULL || root->B->B == NULL) {
-         HSLAPixel tempA = root->A->avg;
-         HSLAPixel tempB = root->B->avg;
-         root->A->avg = tempB;
+  if (root->A->A == NULL || root->B->B == NULL) { // more than swapping colors
+         HSLAPixel tempA = root->A->avg; // if leaf then swap
+         HSLAPixel tempB = root->B->avg; // another case
+         root->A->avg = tempB; // don't only check leaves
          root->B->avg = tempA;
   }
   else {
