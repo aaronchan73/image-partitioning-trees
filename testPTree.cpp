@@ -238,60 +238,60 @@ TEST_CASE("PTree::Size_NumLeaves", "[weight=1][part=ptree]") {
   REQUIRE(treenumleaves == 6);
 }
 
-// TEST_CASE("PTree::CopyConstructor_operator=", "[weight=1][part=ptree]") {
-//   //cout << "Testing PTree CopyConstructor_operator=..." << endl;
+TEST_CASE("PTree::CopyConstructor_operator=", "[weight=1][part=ptree]") {
+  //cout << "Testing PTree CopyConstructor_operator=..." << endl;
 
-//   PNG source1;
-//   source1.readFromFile("originals/mix-3x5.png");
+  PNG source1;
+  source1.readFromFile("originals/mix-3x5.png");
 
-//   PNG source2;
-//   source2.readFromFile("originals/pruneto9leaves-5x3.png");
+  PNG source2;
+  source2.readFromFile("originals/pruneto9leaves-5x3.png");
 
-//   PTree tree1(source1);
+  PTree tree1(source1);
 
-//   PTree tree2(tree1);
+  PTree tree2(tree1);
 
-//   Node* t1root = tree1.GetRoot();
-//   Node* t1rA = t1root->A;
-//   Node* t1rB = t1root->B;
-//   Node* t1rBBAA = t1root->B->B->A->A;
+  Node* t1root = tree1.GetRoot();
+  Node* t1rA = t1root->A;
+  Node* t1rB = t1root->B;
+  Node* t1rBBAA = t1root->B->B->A->A;
 
-//   Node* t2root = tree2.GetRoot();
-//   Node* t2rA = t2root->A;
-//   Node* t2rB = t2root->B;
-//   Node* t2rBBAA = t2root->B->B->A->A;
+  Node* t2root = tree2.GetRoot();
+  Node* t2rA = t2root->A;
+  Node* t2rB = t2root->B;
+  Node* t2rBBAA = t2root->B->B->A->A;
 
-//   REQUIRE(t1root != t2root);
-//   REQUIRE(t1rA != t2rA);
-//   REQUIRE(t1rB != t2rB);
-//   REQUIRE(t1rBBAA != t2rBBAA);
+  REQUIRE(t1root != t2root);
+  REQUIRE(t1rA != t2rA);
+  REQUIRE(t1rB != t2rB);
+  REQUIRE(t1rBBAA != t2rBBAA);
 
-//   REQUIRE(t1rBBAA->avg == t2rBBAA->avg);
+  REQUIRE(t1rBBAA->avg == t2rBBAA->avg);
 
-//   PTree tree3(source2);
+  PTree tree3(source2);
 
-//   tree2 = tree3;
+  tree2 = tree3;
 
-//   Node* t3root = tree3.GetRoot();
-//   Node* t3rA = t3root->A;
-//   Node* t3rB = t3root->B;
-//   Node* t3rBBAA = t3root->B->B->A->A;
+  Node* t3root = tree3.GetRoot();
+  Node* t3rA = t3root->A;
+  Node* t3rB = t3root->B;
+  Node* t3rBBAA = t3root->B->B->A->A;
 
-//   Node* t2newroot = tree2.GetRoot();
-//   t2rA = t2newroot->A;
-//   t2rB = t2newroot->B;
-//   t2rBBAA = t2newroot->B->B->A->A;
+  Node* t2newroot = tree2.GetRoot();
+  t2rA = t2newroot->A;
+  t2rB = t2newroot->B;
+  t2rBBAA = t2newroot->B->B->A->A;
 
-//   REQUIRE(t2newroot != t2root);
+  REQUIRE(t2newroot != t2root);
 
-//   REQUIRE(t3root != t2newroot);
-//   REQUIRE(t3rA != t2rA);
-//   REQUIRE(t3rB != t2rB);
-//   REQUIRE(t3rBBAA != t2rBBAA);
+  REQUIRE(t3root != t2newroot);
+  REQUIRE(t3rA != t2rA);
+  REQUIRE(t3rB != t2rB);
+  REQUIRE(t3rBBAA != t2rBBAA);
 
-//   REQUIRE(t3rBBAA->avg == t2rBBAA->avg);
+  REQUIRE(t3rBBAA->avg == t2rBBAA->avg);
   
-// }
+}
 
 TEST_CASE("PTree::Render", "[weight=1][part=ptree]") {
   //cout << "Testing PTree Render..." << endl;

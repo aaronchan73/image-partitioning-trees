@@ -49,13 +49,17 @@ void PTree::Clear() {
 
 Node* PTree::copyTree(Node* root) {
   if (!root) return NULL;
+
   Node *node = new Node();
+
   node->upperleft = root->upperleft;
   node->width = root->width;
   node->height = root->height;
   node->avg = root->avg;
+
   node->A = copyTree(root->A);
   node->B = copyTree(root->B);
+
   return node;
 }
 
@@ -231,7 +235,10 @@ PTree::PTree(const PTree& other) {
 */
 PTree& PTree::operator=(const PTree& other) {
   // add your implementation below
-
+  if (root != other.root) {
+  Clear();
+  Copy(other);
+  }
   return *this;
 }
 
