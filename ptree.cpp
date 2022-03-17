@@ -47,11 +47,16 @@ void PTree::Clear() {
   clearTree(root);
 }
 
-
-
-Node* PTree::copyTree(const PTree& other) {
-  Node *otherRoot = other.root; // can access root directly
+Node* PTree::copyTree(Node* root) {
+  if (!root) return NULL;
   Node *node = new Node();
+  node->upperleft = root->upperleft;
+  node->width = root->width;
+  node->height = root->height;
+  node->avg = root->avg;
+  node->A = copyTree(root->A);
+  node->B = copyTree(root->B);
+  return node;
 }
 
 /*
@@ -64,7 +69,8 @@ Node* PTree::copyTree(const PTree& other) {
 */
 void PTree::Copy(const PTree& other) {
   // add your implementation below
-  root = copyTree(other);
+  Node *otherRoot = other.root; // can access root directly
+  root = copyTree(otherRoot);
 }
 
 HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, unsigned int> ul, PNG& im) {

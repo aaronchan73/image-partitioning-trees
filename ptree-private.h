@@ -31,7 +31,7 @@ void Horizontal(Node* root);
 
 void Vertical(Node* root);
 
-Node* copyTree(const PTree& other);
+Node* copyTree(Node* root);
 
 void renderPNG(Node* root, PNG &image) const;
 
