@@ -396,7 +396,7 @@ void PTree::Horizontal(Node* root) {
          root->A->avg = tempB; // don't only check leaves
          root->B->avg = tempA;
   }
-  else {
+  else { 
     // Node* temp = root->A;
     // root->A = root->B;
     // root->B = temp;
@@ -404,6 +404,13 @@ void PTree::Horizontal(Node* root) {
     Horizontal(root->A);
     Horizontal(root->B);
   }
+
+  // if w > h, tiled hori
+  // then flip hori, 
+  // left, update upperleft to be at node ul + b width
+  // right, update upperleft to be at ul a (swap uls)
+  // if h > w, tiled vert, update ul.x for both children to be original ul.x
+  // for all nodes, if leaf then then return
 }
 
 /*
