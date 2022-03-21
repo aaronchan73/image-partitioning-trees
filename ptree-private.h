@@ -35,4 +35,8 @@ Node* copyTree(Node* root);
 
 void renderPNG(Node* root, PNG &image) const;
 
+void pruneTree(Node *root, double tolerance);
+
+bool isWithinAverage(Node *root, double tolerance, HSLAPixel average);
+
 #endif

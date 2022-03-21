@@ -279,6 +279,45 @@ PNG PTree::Render() const {
   return ans;
 }
 
+
+bool PTree::isWithinAverage(Node *root, double tolerance, HSLAPixel average) {
+  if (!root) return false;
+  if (root->A == NULL && root->B == NULL) {
+    return average.dist(root->avg) <= tolerance;
+  } 
+  else {
+    return isWithinAverage(root->A, tolerance, average) && isWithinAverage(root->B, tolerance, average);
+  }
+}
+
+void PTree::pruneTree(Node *root, double tolerance) {
+  if (!root) return;
+  HSLAPixel average = root->avg;
+  // HSLAPixel averageA = root->A->avg;
+  // HSLAPixel averageB = root->B->avg;
+
+  // if (average.dist(averageA) <= tolerance && average.dist(averageB) <= tolerance) {
+  //   clearTree(root->A);
+  //   clearTree(root->B);
+  // }
+  // else if (average.dist(averageA) > tolerance || average.dist(averageB) > tolerance) {
+  // pruneTree(root->A, tolerance);
+  // pruneTree(root->B, tolerance);
+  // }
+
+  if (isWithinAverage(root, tolerance, average)) {
+    clearTree(root->A);
+    clearTree(root->B);
+    root->A = NULL;
+    root->B = NULL;
+  }
+  else {
+    pruneTree(root->A, tolerance);
+    pruneTree(root->B, tolerance);
+  }
+
+}
+
 /*
 *  Trims subtrees as high as possible in the tree. A subtree is pruned
 *  (its children are cleared/deallocated) if ALL of its leaves have colour
@@ -297,7 +336,7 @@ PNG PTree::Render() const {
 */
 void PTree::Prune(double tolerance) {
   // add your implementation below
-  
+  pruneTree(root, tolerance);
 }
 
 int PTree::getSize(Node* root) const {
