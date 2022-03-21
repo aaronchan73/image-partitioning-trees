@@ -254,7 +254,15 @@ PTree::~PTree() {
 void PTree::renderPNG(Node* root, PNG &image) const {
   if (root == NULL) return;
   else if (root->A == NULL && root->B == NULL) {
-    *image.getPixel(root->upperleft.first, root->upperleft.second) = root->avg;
+    if (root->height == 1 && root->width == 1) {
+      *image.getPixel(root->upperleft.first, root->upperleft.second) = root->avg;
+    } else {
+      for (unsigned int x = root->upperleft.first; x < root->upperleft.first + root->width; x++) {
+        for (unsigned int y = root->upperleft.second; y < root->upperleft.second + root->height; y++) {
+          *image.getPixel(x, y) = root->avg;
+        }
+      }
+    }
   } else {
     renderPNG(root->A, image);
     renderPNG(root->B, image);
@@ -306,6 +314,8 @@ void PTree::pruneTree(Node *root, double tolerance) {
   // }
 
   if (isWithinAverage(root, tolerance, average)) {
+    // root->width = 1;
+    // root->height = 1;
     clearTree(root->A);
     clearTree(root->B);
     root->A = NULL;
@@ -445,4 +455,3 @@ Node* PTree::GetRoot() {
 //////////////////////////////////////////////
 // PERSONALLY DEFINED PRIVATE MEMBER FUNCTIONS
 //////////////////////////////////////////////
-
