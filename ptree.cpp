@@ -407,18 +407,20 @@ void PTree::Horizontal(Node* root) {
 
   if (!root) return;
   else if (root->A == NULL && root->B == NULL) return;
-  else if (root->width > root->height || root->width == root->height){
+  else if (root->width >= root->height) {
     // pair<unsigned int, unsigned int> tempUL = {root->B->upperleft.first, root->B->upperleft.second};
     // root->B->upperleft = root->A->upperleft;
     // root->A->upperleft = tempUL;
 
     root->A->upperleft = {root->upperleft.first + root->B->width, root->upperleft.second};
-    cout << root->A->upperleft << endl;
     root->B->upperleft = root->upperleft;
-    cout << root->B->upperleft << endl;
 
     // Horizontal(root->A);
     // Horizontal(root->B);
+  } 
+  else if (root->width < root->height) {
+    root->A->upperleft = {root->upperleft.first, root->A->upperleft.second};
+    root->B->upperleft = {root->upperleft.first, root->B->upperleft.second};
   }
   // } else {
   Horizontal(root->A);
