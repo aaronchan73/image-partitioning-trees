@@ -388,22 +388,42 @@ int PTree::NumLeaves() const {
 }
 
 void PTree::Horizontal(Node* root) {
+  // if (!root) return;
+  // else if (root->A == NULL && root->B == NULL) return;
+  // if (root->A->A == NULL || root->B->B == NULL) { // more than swapping colors
+  //        HSLAPixel tempA = root->A->avg; // if leaf then swap
+  //        HSLAPixel tempB = root->B->avg; // another case
+  //        root->A->avg = tempB; // don't only check leaves
+  //        root->B->avg = tempA;
+  // }
+  // else { 
+  //   // Node* temp = root->A;
+  //   // root->A = root->B;
+  //   // root->B = temp;
+
+  //   Horizontal(root->A);
+  //   Horizontal(root->B);
+  // }
+
   if (!root) return;
   else if (root->A == NULL && root->B == NULL) return;
-  if (root->A->A == NULL || root->B->B == NULL) { // more than swapping colors
-         HSLAPixel tempA = root->A->avg; // if leaf then swap
-         HSLAPixel tempB = root->B->avg; // another case
-         root->A->avg = tempB; // don't only check leaves
-         root->B->avg = tempA;
-  }
-  else { 
-    // Node* temp = root->A;
-    // root->A = root->B;
-    // root->B = temp;
+  else if (root->width > root->height || root->width == root->height){
+    // pair<unsigned int, unsigned int> tempUL = {root->B->upperleft.first, root->B->upperleft.second};
+    // root->B->upperleft = root->A->upperleft;
+    // root->A->upperleft = tempUL;
 
-    Horizontal(root->A);
-    Horizontal(root->B);
+    root->A->upperleft = {root->upperleft.first + root->B->width, root->upperleft.second};
+    cout << root->A->upperleft << endl;
+    root->B->upperleft = root->upperleft;
+    cout << root->B->upperleft << endl;
+
+    // Horizontal(root->A);
+    // Horizontal(root->B);
   }
+  // } else {
+  Horizontal(root->A);
+  Horizontal(root->B);
+ // }
 
   // if w > h, tiled hori
   // then flip hori, 
@@ -412,6 +432,14 @@ void PTree::Horizontal(Node* root) {
   // if h > w, tiled vert, update ul.x for both children to be original ul.x
   // for all nodes, if leaf then then return
 }
+
+// left one you update upper left coords to be right at the half mark (B ul)
+// subtreeB update on original node's left node
+
+// B ul = node ul + As width
+// A = node ul
+
+
 
 /*
 *  Rearranges the nodes in the tree, such that a rendered PNG will be flipped horizontally
