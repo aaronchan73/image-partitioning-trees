@@ -462,7 +462,26 @@ void PTree::FlipHorizontal() {
 
 
 void PTree::Vertical(Node* root) {
-  
+  if (!root) return;
+  else if (root->A == NULL && root->B == NULL) return;
+  else if (root->width < root->height) {
+    // pair<unsigned int, unsigned int> tempUL = {root->B->upperleft.first, root->B->upperleft.second};
+    // root->B->upperleft = root->A->upperleft;
+    // root->A->upperleft = tempUL;
+
+    root->B->upperleft = root->upperleft;
+    root->A->upperleft = {root->upperleft.first, root->upperleft.second + root->B->height} ;
+
+    // Horizontal(root->A);
+    // Horizontal(root->B);
+  } 
+  else if (root->width >= root->height) {
+    root->A->upperleft = {root->A->upperleft.first, root->upperleft.second};
+    root->B->upperleft = {root->B->upperleft.first, root->upperleft.second};
+  }
+  // } else {
+  Vertical(root->A);
+  Vertical(root->B);
 }
 
 /*
