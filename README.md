@@ -2,7 +2,7 @@
 
 PA3 for UBC's CPSC221.
 
-Uses binary trees to represent rectangular regions of a PNG image.
+Uses binary trees to represent rectangular regions of a PNG image. <br />
 Features:
 - Rendering inputted tree to a PNG.
 - Flipping PNG horizontally or vertically.
