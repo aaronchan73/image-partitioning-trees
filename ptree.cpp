@@ -20,13 +20,6 @@ typedef pair<unsigned int, unsigned int> pairUI;
 /////////////////////////////////
 
 void PTree::clearTree(Node* root) {
-  // if (root->A == NULL && root->B == NULL) {
-  //   delete root;
-  // } else {
-  //   clearTree(root->A);
-  //   clearTree(root->B);
-  // }
-  // root = NULL;
   if (!root) return;
   else {
     Node *tempA = root->A;
@@ -81,7 +74,6 @@ HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, u
   double XcomponentHue = 0;
   double YcomponentHue = 0;
   double avgSat = 0;
-  // double avgAlp = 0;
   double avgLue = 0;
 
   for (unsigned int x = ul.first; x < ul.first + w; x++) {
@@ -90,13 +82,11 @@ HSLAPixel PTree::ComputeAvg(unsigned int w, unsigned int h, pair<unsigned int, u
       XcomponentHue += Deg2X(pixel->h);
       YcomponentHue += Deg2Y(pixel->h);
       avgSat += pixel->s;
-      // avgAlp += pixel->a;
       avgLue += pixel->l;
     }
   }
 
   avgSat = avgSat / (w * h);
-  // avgAlp = avgAlp / (w * h);
   avgLue = avgLue / (w * h);
   XcomponentHue = XcomponentHue / (w * h);
   YcomponentHue = YcomponentHue / (w * h);
@@ -207,7 +197,6 @@ Node* PTree::BuildNode(PNG& im, pair<unsigned int, unsigned int> ul, unsigned in
 */
 PTree::PTree(PNG& im) {
   // add your implementation below
-  // pair<unsigned int, unsigned int> initial(0,0);
   root = BuildNode(im, {0,0}, im.width(), im.height());
 }
 
@@ -300,22 +289,10 @@ bool PTree::isWithinAverage(Node *root, double tolerance, HSLAPixel average) {
 
 void PTree::pruneTree(Node *root, double tolerance) {
   if (!root) return;
+  
   HSLAPixel average = root->avg;
-  // HSLAPixel averageA = root->A->avg;
-  // HSLAPixel averageB = root->B->avg;
-
-  // if (average.dist(averageA) <= tolerance && average.dist(averageB) <= tolerance) {
-  //   clearTree(root->A);
-  //   clearTree(root->B);
-  // }
-  // else if (average.dist(averageA) > tolerance || average.dist(averageB) > tolerance) {
-  // pruneTree(root->A, tolerance);
-  // pruneTree(root->B, tolerance);
-  // }
 
   if (isWithinAverage(root, tolerance, average)) {
-    // root->width = 1;
-    // root->height = 1;
     clearTree(root->A);
     clearTree(root->B);
     root->A = NULL;
@@ -388,51 +365,20 @@ int PTree::NumLeaves() const {
 }
 
 void PTree::Horizontal(Node* root) {
-  // if (!root) return;
-  // else if (root->A == NULL && root->B == NULL) return;
-  // if (root->A->A == NULL || root->B->B == NULL) { // more than swapping colors
-  //        HSLAPixel tempA = root->A->avg; // if leaf then swap
-  //        HSLAPixel tempB = root->B->avg; // another case
-  //        root->A->avg = tempB; // don't only check leaves
-  //        root->B->avg = tempA;
-  // }
-  // else { 
-  //   // Node* temp = root->A;
-  //   // root->A = root->B;
-  //   // root->B = temp;
-
-  //   Horizontal(root->A);
-  //   Horizontal(root->B);
-  // }
-
   if (!root) return;
   else if (root->A == NULL && root->B == NULL) return;
   else if (root->width >= root->height) {
-    // pair<unsigned int, unsigned int> tempUL = {root->B->upperleft.first, root->B->upperleft.second};
-    // root->B->upperleft = root->A->upperleft;
-    // root->A->upperleft = tempUL;
-
     root->A->upperleft = {root->upperleft.first + root->B->width, root->upperleft.second};
     root->B->upperleft = root->upperleft;
-
-    // Horizontal(root->A);
-    // Horizontal(root->B);
   } 
   else if (root->width < root->height) {
     root->A->upperleft = {root->upperleft.first, root->A->upperleft.second};
     root->B->upperleft = {root->upperleft.first, root->B->upperleft.second};
   }
-  // } else {
+
   Horizontal(root->A);
   Horizontal(root->B);
- // }
 
-  // if w > h, tiled hori
-  // then flip hori, 
-  // left, update upperleft to be at node ul + b width
-  // right, update upperleft to be at ul a (swap uls)
-  // if h > w, tiled vert, update ul.x for both children to be original ul.x
-  // for all nodes, if leaf then then return
 }
 
 // left one you update upper left coords to be right at the half mark (B ul)
@@ -440,8 +386,6 @@ void PTree::Horizontal(Node* root) {
 
 // B ul = node ul + As width
 // A = node ul
-
-
 
 /*
 *  Rearranges the nodes in the tree, such that a rendered PNG will be flipped horizontally
@@ -465,21 +409,15 @@ void PTree::Vertical(Node* root) {
   if (!root) return;
   else if (root->A == NULL && root->B == NULL) return;
   else if (root->width < root->height) {
-    // pair<unsigned int, unsigned int> tempUL = {root->B->upperleft.first, root->B->upperleft.second};
-    // root->B->upperleft = root->A->upperleft;
-    // root->A->upperleft = tempUL;
 
     root->B->upperleft = root->upperleft;
     root->A->upperleft = {root->upperleft.first, root->upperleft.second + root->B->height} ;
 
-    // Horizontal(root->A);
-    // Horizontal(root->B);
   } 
   else if (root->width >= root->height) {
     root->A->upperleft = {root->A->upperleft.first, root->upperleft.second};
     root->B->upperleft = {root->B->upperleft.first, root->upperleft.second};
   }
-  // } else {
   Vertical(root->A);
   Vertical(root->B);
 }
